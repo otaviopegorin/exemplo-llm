@@ -1,0 +1,5 @@
+def somar(primeiro: int, segundo: int):
+    return primeiro + segundo
+
+def multiplicar(primeiro: int, segundo: int):
+    return primeiro * segundo

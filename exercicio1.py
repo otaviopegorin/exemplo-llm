@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from tools import consultar_status_pedido, gerar_boleto, agendar_consulta
+from exercicio1_functions import somar, multiplicar
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -42,49 +42,42 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "consultar_status_pedido",
-            "description": "Consulta o status de um pedido",
+            "name": "somar",
+            "description": "Realizar a soma de dois numeros",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "pedido_id": {
+                    "primeiro": {
                         "type": "integer",
-                        "description": "ID do pedido"
+                        "description": "Primeiro numero a ser somado"
+                    },
+                    "segundo": {
+                        "type": "integer",
+                        "description": "Segundo numero a ser somado"
                     }
                 },
-                "required": ["pedido_id"]
+                "required": ["primeiro","segundo"]
             }
         }
     },
     {
         "type": "function",
         "function": {
-            "name": "gerar_boleto",
-            "description": "Gera um boleto para o cliente",
+            "name": "multiplicar",
+            "description": "Realizar a multiplicação de dois numeros",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "email": {
-                        "type": "string",
-                        "description": "Email do cliente"
+                    "primeiro": {
+                        "type": "integer",
+                        "description": "Primeiro numero a ser multiplicado"
+                    },
+                    "segundo": {
+                        "type": "integer",
+                        "description": "Segundo numero a ser multiplicado"
                     }
                 },
-                "required": ["email"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "agendar_consulta",
-            "description": "Agenda uma consulta",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "data": {"type": "string"},
-                    "hora": {"type": "string"}
-                },
-                "required": ["data", "hora"]
+                "required": ["primeiro","segundo"]
             }
         }
     }
@@ -113,16 +106,13 @@ def perguntar(pergunta: str):
         print(f"Tool chamada: {tool_name}")
         print(f"Argumentos: {args}")
 
-        if tool_name == "consultar_status_pedido":
-            return consultar_status_pedido(**args)
+        if tool_name == "somar":
+            return somar(**args)
 
-        if tool_name == "gerar_boleto":
-            return gerar_boleto(**args)
-
-        if tool_name == "agendar_consulta":
-            return agendar_consulta(**args)
+        if tool_name == "multiplicar":
+            return multiplicar(**args)
 
     return message.content
 
 
-print(perguntar("Qual o status do pedido 1029?"))
+print(perguntar("Multiplique 10 + 25 !"))
