@@ -1,11 +1,5 @@
-def somar(primeiro: int, segundo: int):
-    return primeiro + segundo
+def celsius_para_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
 
-def multiplicar(primeiro: int, segundo: int):
-    return primeiro * segundo
-
-def subtrair(primeiro: int, segundo: int):
-    return primeiro - segundo
-
-def dividir(primeiro: int, segundo: int):
-    return primeiro / segundo
+def fahrenheit_para_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5/9

@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from functions import somar, multiplicar, subtrair, dividir
+from functions import celsius_para_fahrenheit, fahrenheit_para_celsius
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -42,84 +42,34 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "somar",
-            "description": "Realizar a soma de dois numeros",
+            "name": "celsius_para_fahrenheit",
+            "description": "Converter celsius para fahrenheit",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "primeiro": {
+                    "celsius": {
                         "type": "integer",
-                        "description": "Primeiro numero a ser somado"
-                    },
-                    "segundo": {
-                        "type": "integer",
-                        "description": "Segundo numero a ser somado"
+                        "description": "Valor em celsius a ser convertido para fahrenheit"
                     }
                 },
-                "required": ["primeiro","segundo"]
+                "required": ["celsius"]
             }
         }
     },
     {
         "type": "function",
         "function": {
-            "name": "multiplicar",
-            "description": "Realizar a multiplicação de dois numeros",
+            "name": "fahrenheit_para_celsius",
+            "description": "Converter fahrenheit para celsius",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "primeiro": {
+                    "fahrenheit": {
                         "type": "integer",
-                        "description": "Primeiro numero a ser multiplicado"
-                    },
-                    "segundo": {
-                        "type": "integer",
-                        "description": "Segundo numero a ser multiplicado"
+                        "description": "Valor em fahrenheit a ser convertido para celsius"
                     }
                 },
-                "required": ["primeiro","segundo"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "dividir",
-            "description": "Realizar a divisão de dois numeros",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "primeiro": {
-                        "type": "integer",
-                        "description": "Primeiro numero, o dividendo"
-                    },
-                    "segundo": {
-                        "type": "integer",
-                        "description": "Segundo numero, o divisor"
-                    }
-                },
-                "required": ["primeiro","segundo"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "subtrair",
-            "description": "Realizar a subtração de dois numeros",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "primeiro": {
-                        "type": "integer",
-                        "description": "Primeiro numero que sofrerá a subtração"
-                    },
-                    "segundo": {
-                        "type": "integer",
-                        "description": "Segundo numero que irá ser subtraído do primeiro"
-                    }
-                },
-                "required": ["primeiro","segundo"]
+                "required": ["fahrenheit"]
             }
         }
     }
@@ -148,19 +98,13 @@ def perguntar(pergunta: str):
         print(f"Tool chamada: {tool_name}")
         print(f"Argumentos: {args}")
 
-        if tool_name == "somar":
-            return somar(**args)
+        if tool_name == "celsius_para_fahrenheit":
+            return celsius_para_fahrenheit(**args)
 
-        if tool_name == "multiplicar":
-            return multiplicar(**args)
+        if tool_name == "fahrenheit_para_celsius":
+            return fahrenheit_para_celsius(**args)
 
-        if tool_name == "subtrair":
-            return subtrair(**args)
-        
-        if tool_name == "dividir":
-            return dividir(**args)
-        
     return message.content
 
 
-print(perguntar("Divida 100 de 25 !"))
+print(perguntar("Transforme 60 celsius em fahrenheit!"))
