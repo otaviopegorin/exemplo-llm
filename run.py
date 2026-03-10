@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from exercicio1_functions import somar, multiplicar
+from functions import somar, multiplicar, subtrair, dividir
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -80,6 +80,48 @@ tools = [
                 "required": ["primeiro","segundo"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "dividir",
+            "description": "Realizar a divisão de dois numeros",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "primeiro": {
+                        "type": "integer",
+                        "description": "Primeiro numero, o dividendo"
+                    },
+                    "segundo": {
+                        "type": "integer",
+                        "description": "Segundo numero, o divisor"
+                    }
+                },
+                "required": ["primeiro","segundo"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "subtrair",
+            "description": "Realizar a subtração de dois numeros",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "primeiro": {
+                        "type": "integer",
+                        "description": "Primeiro numero que sofrerá a subtração"
+                    },
+                    "segundo": {
+                        "type": "integer",
+                        "description": "Segundo numero que irá ser subtraído do primeiro"
+                    }
+                },
+                "required": ["primeiro","segundo"]
+            }
+        }
     }
 ]
 
@@ -112,7 +154,13 @@ def perguntar(pergunta: str):
         if tool_name == "multiplicar":
             return multiplicar(**args)
 
+        if tool_name == "subtrair":
+            return subtrair(**args)
+        
+        if tool_name == "dividir":
+            return dividir(**args)
+        
     return message.content
 
 
-print(perguntar("Multiplique 10 + 25 !"))
+print(perguntar("Divida 100 de 25 !"))
