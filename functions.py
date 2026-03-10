@@ -1,5 +1,7 @@
-def celsius_para_fahrenheit(celsius):
-    return (celsius * 9/5) + 32
-
-def fahrenheit_para_celsius(fahrenheit):
-    return (fahrenheit - 32) * 5/9
+def buscar_produto(nome_produto: str):
+    produtos = {
+        "notebook": 4500,
+        "mouse": 80,
+        "teclado": 150
+    }
+    return produtos.get(nome_produto, "Pedido não encontrado")

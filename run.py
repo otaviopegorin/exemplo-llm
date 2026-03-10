@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from functions import celsius_para_fahrenheit, fahrenheit_para_celsius
+from functions import buscar_produto
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -42,34 +42,17 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "celsius_para_fahrenheit",
-            "description": "Converter celsius para fahrenheit",
+            "name": "buscar_produto",
+            "description": "Buscar o preço do produto",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "celsius": {
-                        "type": "integer",
-                        "description": "Valor em celsius a ser convertido para fahrenheit"
+                    "nome_produto": {
+                        "type": "string",
+                        "description": "Nome do produto a ser buscado"
                     }
                 },
-                "required": ["celsius"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "fahrenheit_para_celsius",
-            "description": "Converter fahrenheit para celsius",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "fahrenheit": {
-                        "type": "integer",
-                        "description": "Valor em fahrenheit a ser convertido para celsius"
-                    }
-                },
-                "required": ["fahrenheit"]
+                "required": ["nome_produto"]
             }
         }
     }
@@ -98,13 +81,10 @@ def perguntar(pergunta: str):
         print(f"Tool chamada: {tool_name}")
         print(f"Argumentos: {args}")
 
-        if tool_name == "celsius_para_fahrenheit":
-            return celsius_para_fahrenheit(**args)
-
-        if tool_name == "fahrenheit_para_celsius":
-            return fahrenheit_para_celsius(**args)
+        if tool_name == "buscar_produto":
+            return buscar_produto(**args)
 
     return message.content
 
 
-print(perguntar("Transforme 60 celsius em fahrenheit!"))
+print(perguntar("Busque o preço do produto notebook !"))
