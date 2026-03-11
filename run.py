@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from functions import criar_evento,listar_eventos
+from functions import buscar_clima
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -42,31 +42,17 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "criar_evento",
-            "description": "Criar evento",
+            "name": "buscar_clima",
+            "description": "Buscar clima em uma cidade especifica",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "titulo": {
+                    "cidade": {
                         "type": "string",
-                        "description": "Titulo do evento a ser criado"
-                    },
-                    "data": {
-                        "type": "string",
-                        "description": "Data do evento a ser criado"
+                        "description": "Cidade em que estamos buscando o clima"
                     }
                 },
-                "required": ["titulo","data"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "listar_eventos",
-            "description": "Listar os eventos",
-            "parameters": {
-                "type": "object"
+                "required": ["cidade"]
             }
         }
     }
@@ -95,15 +81,10 @@ def perguntar(pergunta: str):
         print(f"Tool chamada: {tool_name}")
         print(f"Argumentos: {args}")
 
-        if tool_name == "criar_evento":
-            return criar_evento(**args)
+        if tool_name == "buscar_clima":
+            return buscar_clima(**args)
 
-        if tool_name == "listar_eventos":
-            return listar_eventos(**args)
-        
     return message.content
 
 
-print(perguntar("Criar evento aniversario da manu na data 03/10 !"))
-print(perguntar("Criar evento aniversario do Murilo na data 04/11 !"))
-print(perguntar("Listar eventos !"))
+print(perguntar("Como está o clima em curitiba?"))

@@ -1,18 +1,7 @@
-eventos = []
-
-def criar_evento(titulo: str, data: str):
-    evento = {
-        "titulo": titulo,
-        "data": data
+def buscar_clima(cidade: str):
+    clima = {
+        "sao paulo": "24°C e nublado",
+        "bauru": "30°C e ensolarado",
+        "curitiba": "18°C e chuvoso"
     }
-    eventos.append(evento)
-    print(f"Evento criado: {titulo} em {data}")
-
-def listar_eventos():
-    if not eventos:
-        print("Nenhum evento cadastrado.")
-        return
-    
-    print("Lista de eventos:")
-    for evento in eventos:
-        print(f"- {evento['titulo']} | Data: {evento['data']}")
+    return clima.get(cidade, "Cidade não encontrado")
