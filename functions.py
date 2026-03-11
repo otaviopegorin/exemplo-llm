@@ -1,15 +1,18 @@
-def buscar_produto(nome_produto: str):
-    produtos = {
-        "notebook": 4500,
-        "mouse": 80,
-        "teclado": 150
-    }
-    return produtos.get(nome_produto, "Pedido não encontrado")
+eventos = []
 
-def verificar_estoque(nome_produto: str):
-    estoque = {
-    "notebook": 5,
-    "mouse": 20,
-    "teclado": 8
+def criar_evento(titulo: str, data: str):
+    evento = {
+        "titulo": titulo,
+        "data": data
     }
-    return estoque.get(nome_produto, "Pedido não encontrado") > 0
+    eventos.append(evento)
+    print(f"Evento criado: {titulo} em {data}")
+
+def listar_eventos():
+    if not eventos:
+        print("Nenhum evento cadastrado.")
+        return
+    
+    print("Lista de eventos:")
+    for evento in eventos:
+        print(f"- {evento['titulo']} | Data: {evento['data']}")

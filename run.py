@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from functions import buscar_produto,verificar_estoque
+from functions import criar_evento,listar_eventos
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -42,34 +42,31 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "buscar_produto",
-            "description": "Buscar o preço do produto",
+            "name": "criar_evento",
+            "description": "Criar evento",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "nome_produto": {
+                    "titulo": {
                         "type": "string",
-                        "description": "Nome do produto a ser buscado"
+                        "description": "Titulo do evento a ser criado"
+                    },
+                    "data": {
+                        "type": "string",
+                        "description": "Data do evento a ser criado"
                     }
                 },
-                "required": ["nome_produto"]
+                "required": ["titulo","data"]
             }
         }
     },
     {
         "type": "function",
         "function": {
-            "name": "verificar_estoque",
-            "description": "Verificar estoque do produto",
+            "name": "listar_eventos",
+            "description": "Listar os eventos",
             "parameters": {
-                "type": "object",
-                "properties": {
-                    "nome_produto": {
-                        "type": "string",
-                        "description": "Nome do produto cujo estoque será verificado"
-                    }
-                },
-                "required": ["nome_produto"]
+                "type": "object"
             }
         }
     }
@@ -98,13 +95,15 @@ def perguntar(pergunta: str):
         print(f"Tool chamada: {tool_name}")
         print(f"Argumentos: {args}")
 
-        if tool_name == "buscar_produto":
-            return buscar_produto(**args)
+        if tool_name == "criar_evento":
+            return criar_evento(**args)
 
-        if tool_name == "verificar_estoque":
-            return verificar_estoque(**args)
+        if tool_name == "listar_eventos":
+            return listar_eventos(**args)
         
     return message.content
 
 
-print(perguntar("Verifique o estoque do produto notebook !"))
+print(perguntar("Criar evento aniversario da manu na data 03/10 !"))
+print(perguntar("Criar evento aniversario do Murilo na data 04/11 !"))
+print(perguntar("Listar eventos !"))
