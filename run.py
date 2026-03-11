@@ -29,7 +29,7 @@
 import os
 import json
 from openai import OpenAI
-from functions import buscar_produto
+from functions import buscar_produto,verificar_estoque
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -50,6 +50,23 @@ tools = [
                     "nome_produto": {
                         "type": "string",
                         "description": "Nome do produto a ser buscado"
+                    }
+                },
+                "required": ["nome_produto"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "verificar_estoque",
+            "description": "Verificar estoque do produto",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "nome_produto": {
+                        "type": "string",
+                        "description": "Nome do produto cujo estoque será verificado"
                     }
                 },
                 "required": ["nome_produto"]
@@ -84,7 +101,10 @@ def perguntar(pergunta: str):
         if tool_name == "buscar_produto":
             return buscar_produto(**args)
 
+        if tool_name == "verificar_estoque":
+            return verificar_estoque(**args)
+        
     return message.content
 
 
-print(perguntar("Busque o preço do produto notebook !"))
+print(perguntar("Verifique o estoque do produto notebook !"))
